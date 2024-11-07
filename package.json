@@ -1,8 +1,8 @@
 {
-  "name": "jzt-cli",
+  "name": "@jzt/cli",
   "description": "快速生成九州通前端基础项目的命令行工具",
   "main": "bin/index.mjs",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "type": "module",
   "module": "./dist/index.mjs",
   "preferGlobal": true,

@@ -4,7 +4,7 @@ import { create } from "./template";
 import { isExistsFile } from "./create-dir";
 import { templates, version, gradientBanner } from "./constants";
 import { inputProjectName } from "./prompt";
-import { hasTemplate, clg, log, checkPureOptions } from "./utils";
+import { hasTemplate, clg, log } from "./utils";
 const program = new Command();
 
 // ⭐ 声明主命令
@@ -17,9 +17,9 @@ program
 
 program
   .command("create")
+  .alias('c')
   .description("创建一个新项目")
   .option("-f, --force", "如果目标文件存在，则强制覆盖") // 强制覆盖
-  .option("-g, --github", "使用github模板地址") // 指定项目下载地址是从github下载
   .action(async (cmd) => {
     const projectName = await inputProjectName();
     const isExists = await isExistsFile(projectName, cmd);
