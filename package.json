@@ -1,10 +1,11 @@
 {
-  "name": "join-frontend-cli",
+  "name": "jzt-cli",
   "description": "快速生成九州通前端基础项目的命令行工具",
   "main": "bin/index.mjs",
   "version": "0.0.3",
   "type": "module",
   "module": "./dist/index.mjs",
+  "preferGlobal": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development rollup -c --watch",
     "build": "cross-env NODE_ENV=production  rollup -c",
@@ -19,17 +20,18 @@
   ],
   "license": "MIT",
   "author": {
-    "name": "gaoke.zhang@outlook.com"
+    "name": "gaoke.zhang@qq.com"
   },
   "keywords": [
     "jzt-cli"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pure-admin/pure-admin-cli.git"
+    "url": "git+https://github.com/gk-lang/gk-frontend-cli.git"
   },
   "publishConfig": {
-    "registry": "http://10.3.87.51:8082/repository/npm-group/"
+    "registry": "http://10.3.87.51:8082/repository/npm-hosted/",
+    "access": "public"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.26.0",

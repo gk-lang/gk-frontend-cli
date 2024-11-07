@@ -67,11 +67,14 @@ const command = async (name) => {
   const git = simpleGit(gitOptions);
   const currentBranch = (await git.branch()).current;
   const npm = platform() === "win32" ? "npm.cmd" : "npm";
+  // 切换版本号，例如：npm version patch
   await spawnProcess(npm, ["version", name], { cwd: getCwd() });
+  // 构建项目, 例如：npm run build
   await spawnProcess(npm, ["run", args._[0] ? args._[0] : "build"], {
     cwd: getCwd(),
   });
-  await spawnProcess(npm, ["publish", "--access", "public"], { cwd: getCwd() });
+  // 发布项目, 例如：npm publish
+  await spawnProcess(npm, ["publish"], { cwd: getCwd() });
   getPackageSize("./dist", (size) => {
     log(
       ` 🎊 Congratulations on the successful release, 🕋 Total Package Size: ${size}`
