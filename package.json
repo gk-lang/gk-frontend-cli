@@ -2,7 +2,7 @@
   "name": "join-frontend-cli",
   "description": "快速生成九州通前端基础项目的命令行工具",
   "main": "bin/index.mjs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "module": "./dist/index.mjs",
   "scripts": {
