@@ -2,7 +2,6 @@ import inquirer from "inquirer";
 import { platform } from "node:os";
 import pc from "picocolors";
 import { spawn } from "node:child_process";
-
 import simpleGit from "simple-git";
 
 const gitOptions = {
