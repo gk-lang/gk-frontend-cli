@@ -107,7 +107,7 @@ export const checkNpmVersion = async () => {
       dim(`https://github.com/pure-admin/${npmName}/releases`)
     }\n${isShowEmoji("🚀")} ${
       dim("运行") +
-      magenta(` npm i -g ${npmName}@latest `) +
+      magenta(` npm i -g ${npmName}@latest --force`) +
       dim("升级到最新版脚手架")
     }`,
     { padding: 1, margin: 1, borderColor: "cyan", borderStyle: "round" }
