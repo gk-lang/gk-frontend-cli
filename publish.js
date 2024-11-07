@@ -2,9 +2,9 @@ import inquirer from "inquirer";
 import { platform } from "node:os";
 import pc from "picocolors";
 import minimist from "minimist";
-import { spawn } from 'node:child_process';
-import * as fs from 'node:fs';
-import * as path from 'node:path';
+import { spawn } from "node:child_process";
+import * as fs from "node:fs";
+import * as path from "node:path";
 const args = minimist(process.argv.slice(2));
 
 import simpleGit from "simple-git";
@@ -16,7 +16,7 @@ const gitOptions = {
 };
 
 const log = (content) => console.log(pc.green(content));
-
+const logError = (content) => console.log(pc.red(content));
 const message = `
   🚀 Please select a version to publish: 
     ------------------------------
@@ -53,12 +53,18 @@ const getPackageSize = (dirPath, callback) => {
   callback(totalSize);
 };
 const spawnProcess = async (...args) => {
-  return new Promise((resolve) => {
-    const proc = spawn(...args);
-    proc.stdout.pipe(process.stdout);
-    proc.stderr.pipe(process.stderr);
-    proc.on("close", () => {
-      resolve();
+  return new Promise((resolve, reject) => {
+    const subprocess = spawn(...args);
+    subprocess.stdout.setEncoding("utf8");
+    subprocess.stderr.setEncoding("utf8");
+    subprocess.stdout.pipe(process.stdout);
+    subprocess.stderr.pipe(process.stderr);
+    subprocess.on("close", (code) => {
+      if (code === 1) {
+        reject();
+      } else {
+        resolve();
+      }
     });
   });
 };
@@ -67,21 +73,27 @@ const command = async (name) => {
   const git = simpleGit(gitOptions);
   const currentBranch = (await git.branch()).current;
   const npm = platform() === "win32" ? "npm.cmd" : "npm";
-  // 切换版本号，例如：npm version patch
-  await spawnProcess(npm, ["version", name], { cwd: getCwd() });
-  // 构建项目, 例如：npm run build
-  await spawnProcess(npm, ["run", args._[0] ? args._[0] : "build"], {
-    cwd: getCwd(),
-  });
-  // 发布项目, 例如：npm publish
-  await spawnProcess(npm, ["publish"], { cwd: getCwd() });
-  getPackageSize("./dist", (size) => {
-    log(
-      ` 🎊 Congratulations on the successful release, 🕋 Total Package Size: ${size}`
-    );
-    spawnProcess("git", ["push", "origin", currentBranch], { cwd: getCwd() });
+  try {
+    // 切换版本号，例如：npm version patch
+    await spawnProcess(npm, ["version", name], { cwd: getCwd() });
+    // 构建项目, 例如：npm run build
+    await spawnProcess(npm, ["run", args._[0] ? args._[0] : "build"], {
+      cwd: getCwd(),
+    });
+    // 发布项目, 例如：npm publish
+    await spawnProcess(npm, ["publish"], { cwd: getCwd() });
+    // 计算dist文件夹大小并打印
+    getPackageSize("./dist", (size) => {
+      log(
+        ` 🎊 Congratulations on the successful release, 🕋 Total Package Size: ${size}kb`
+      );
+      spawnProcess("git", ["push", "origin", currentBranch], { cwd: getCwd() });
+      process.exit();
+    });
+  } catch (error) {
+    logError(" 🚫 Failed to publish");
     process.exit();
-  });
+  }
 };
 
 log(message);
