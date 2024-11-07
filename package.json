@@ -1,0 +1,64 @@
+{
+  "name": "join-frontend-cli",
+  "description": "快速生成九州通前端基础项目的命令行工具",
+  "main": "bin/index.mjs",
+  "version": "0.0.1",
+  "type": "module",
+  "module": "./dist/index.mjs",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development rollup -c --watch",
+    "build": "cross-env NODE_ENV=production  rollup -c",
+    "pub": "node ./publish.js"
+  },
+  "bin": {
+    "jzt": "bin/index.mjs"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "gaoke.zhang@outlook.com"
+  },
+  "keywords": [
+    "jzt-cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pure-admin/pure-admin-cli.git"
+  },
+  "publishConfig": {
+    "registry": "http://10.3.87.51:8082/repository/npm-group/"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "cross-env": "^7.0.3",
+    "rollup": "^3.4.0",
+    "rollup-plugin-hashbang": "^3.0.0",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^23.0.2",
+    "@rollup/plugin-json": "^5.0.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.26.0",
+    "axios": "^1.7.7",
+    "babel-preset-env": "^1.7.0",
+    "boxen": "^8.0.1",
+    "cac": "^6.7.14",
+    "commander": "^12.1.0",
+    "figlet": "^1.7.0",
+    "fs-extra": "^10.1.0",
+    "gradient-string": "^3.0.0",
+    "inquirer": "^12.0.1",
+    "log-symbols": "^7.0.0",
+    "minimist": "^1.2.8",
+    "ora": "^8.1.0",
+    "picocolors": "^1.1.1",
+    "progress-estimator": "^0.3.1",
+    "rollup-plugin-polyfill-node": "^0.13.0",
+    "semver": "^7.6.3",
+    "simple-git": "^3.27.0",
+    "trash": "^9.0.0"
+  }
+}
