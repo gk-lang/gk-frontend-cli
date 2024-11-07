@@ -4,9 +4,8 @@ import semver from 'semver'
 import { log } from './log.js'
 import axios from 'axios'
 import { REGISTER, WIN_PLATFORM } from '../constants.js'
-
-const fs = require('fs');
-const path = require('path');
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 /**
  * 计算文件夹大小
