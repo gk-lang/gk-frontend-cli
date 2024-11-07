@@ -1,11 +1,7 @@
 import inquirer from "inquirer";
 import { platform } from "node:os";
 import pc from "picocolors";
-import minimist from "minimist";
 import { spawn } from "node:child_process";
-import * as fs from "node:fs";
-import * as path from "node:path";
-const args = minimist(process.argv.slice(2));
 
 import simpleGit from "simple-git";
 
@@ -17,6 +13,7 @@ const gitOptions = {
 
 const log = (content) => console.log(pc.green(content));
 const logError = (content) => console.log(pc.red(content));
+
 const message = `
   🚀 Please select a version to publish: 
     ------------------------------
@@ -29,29 +26,7 @@ const message = `
 `;
 
 const getCwd = () => process.cwd();
-/**
- * 计算文件夹大小
- * @param dirPath 文件夹路径
- * @param callback 回调函数
- * @returns
- */
-const getPackageSize = (dirPath, callback) => {
-  let totalSize = 0;
 
-  const files = fs.readdirSync(dirPath, { withFileTypes: true });
-
-  files.forEach((file) => {
-    if (file.isFile()) {
-      const filePath = path.join(dirPath, file.name);
-      const stats = fs.statSync(filePath);
-      totalSize += stats.size;
-    } else if (file.isDirectory()) {
-      totalSize += getPackageSize(path.join(dirPath, file.name), () => {});
-    }
-  });
-
-  callback(totalSize);
-};
 const spawnProcess = async (...args) => {
   return new Promise((resolve, reject) => {
     const subprocess = spawn(...args);
@@ -77,19 +52,16 @@ const command = async (name) => {
     // 切换版本号，例如：npm version patch
     await spawnProcess(npm, ["version", name], { cwd: getCwd() });
     // 构建项目, 例如：npm run build
-    await spawnProcess(npm, ["run", args._[0] ? args._[0] : "build"], {
+    await spawnProcess(npm, ["run", "build"], {
       cwd: getCwd(),
     });
     // 发布项目, 例如：npm publish
     await spawnProcess(npm, ["publish"], { cwd: getCwd() });
-    // 计算dist文件夹大小并打印
-    getPackageSize("./dist", (size) => {
-      log(
-        ` 🎊 Congratulations on the successful release, 🕋 Total Package Size: ${size}kb`
-      );
-      spawnProcess("git", ["push", "origin", currentBranch], { cwd: getCwd() });
-      process.exit();
-    });
+    // npm publish 推送成功
+    log(` 🎊 Congratulations on the successful release`);
+    // 把版本更新的代码推送到远程仓库
+    spawnProcess("git", ["push", "origin", currentBranch], { cwd: getCwd() });
+    process.exit();
   } catch (error) {
     logError(" 🚫 Failed to publish");
     process.exit();
