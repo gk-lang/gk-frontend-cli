@@ -4,12 +4,25 @@
   "main": "bin/index.mjs",
   "version": "0.2.1",
   "type": "module",
-  "module": "./dist/index.mjs",
+  "module": "bin/index.mjs",
   "preferGlobal": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development rollup -c --watch",
-    "build": "cross-env NODE_ENV=production  rollup -c",
-    "pub": "node ./publish.js"
+    "dev": "run-p dev:cli dev:cli-server dev:cli-ui",
+    "build": "npm-run-all clean build:cli build:cli-server build:cli-ui",
+    "dev:cli": "pnpm run -C packages/cli dev",
+    "dev:cli-server": "pnpm run -C packages/cli-server dev",
+    "dev:cli-ui": "pnpm run -C packages/cli-ui dev",
+    "build:cli": "pnpm run -C packages/cli build",
+    "build:cli-server": "pnpm run -C packages/cli-server build",
+    "build:cli-ui": "pnpm run -C packages/cli-ui build",
+    "clean": "rimraf dist",
+    "pub": "node ./scripts/publish.js",
+    "prepare": "husky install",
+    "lint": "eslint .",
+    "lint:eslint": "eslint . --fix",
+    "lint:format": "prettier --write --loglevel warn \"**/*.{js,cjs,ts}\"",
+    "lint:lint-staged": "lint-staged -c ./.husky/lintstagedrc.cjs",
+    "lint:all": "npm run lint:eslint && npm run lint:format"
   },
   "bin": {
     "jzt": "bin/index.mjs"
@@ -37,13 +50,16 @@
     "@babel/preset-env": "^7.26.0",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^23.0.2",
-    "@rollup/plugin-json": "^5.0.1",
     "cross-env": "^7.0.3",
-    "husky": "^9.1.6",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^6.0.1",
     "rollup": "^3.4.0",
-    "rollup-plugin-hashbang": "^3.0.0"
+    "rollup-plugin-hashbang": "^3.0.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.0.4"
   },
   "dependencies": {
     "@babel/core": "^7.26.0",
@@ -61,7 +77,6 @@
     "ora": "^8.1.0",
     "picocolors": "^1.1.1",
     "progress-estimator": "^0.3.1",
-    "rollup-plugin-polyfill-node": "^0.13.0",
     "semver": "^7.6.3",
     "simple-git": "^3.27.0",
     "trash": "^9.0.0"

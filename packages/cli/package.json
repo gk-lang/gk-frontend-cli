@@ -1,0 +1,45 @@
+{
+  "name": "cli",
+  "description": "快速生成九州通前端基础项目的命令行工具",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development rollup -c --watch",
+    "build": "cross-env NODE_ENV=production  rollup -c"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "gaoke.zhang@qq.com"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^23.0.2",
+    "@rollup/plugin-json": "^5.0.1",
+    "@rollup/plugin-replace": "^6.0.1",
+    "cross-env": "^7.0.3",
+    "husky": "^9.1.6",
+    "rollup": "^3.4.0",
+    "rollup-plugin-hashbang": "^3.0.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.26.0",
+    "axios": "^1.7.7",
+    "boxen": "^8.0.1",
+    "cac": "^6.7.14",
+    "commander": "^12.1.0",
+    "figlet": "^1.7.0",
+    "fs-extra": "^10.1.0",
+    "gradient-string": "^3.0.0",
+    "inquirer": "^12.0.1",
+    "log-symbols": "^7.0.0",
+    "minimist": "^1.2.8",
+    "ora": "^8.1.0",
+    "picocolors": "^1.1.1",
+    "progress-estimator": "^0.3.1",
+    "rollup-plugin-polyfill-node": "^0.13.0",
+    "semver": "^7.6.3",
+    "simple-git": "^3.27.0",
+    "trash": "^9.0.0"
+  }
+}

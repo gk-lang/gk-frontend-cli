@@ -2,22 +2,26 @@
 import { Command } from "commander";
 import { create } from "./template";
 import { isExistsFile } from "./create-dir";
-import { templates, version, gradientBanner } from "./constants";
+import * as packageJson from "../../package.json";
 import { inputProjectName } from "./prompt";
-import { hasTemplate, clg, log } from "./utils";
+import { spawnProcess, hasTemplate, clg, log } from "./utils";
+import * as http from "node:http";
+
+// import { createServer } from "../cli-service/server/src/server";
 const program = new Command();
 
-// ⭐ 声明主命令
+// 声明主命令
 program
   .name("jzt")
   .description("Hello, 欢迎使用 jzt-cli 脚手架! ")
-  .version(version, "-v, --version", "查看脚手架工具当前版本号")
+  .version(packageJson.version, "-v, --version", "查看脚手架工具当前版本号")
   .helpOption("-h, --help", "查看对应的命令介绍")
   .usage("<command> [options]");
 
+// 声明create创建命令
 program
   .command("create")
-  .alias('c')
+  .alias("c")
   .description("创建一个新项目")
   .option("-f, --force", "如果目标文件存在，则强制覆盖") // 强制覆盖
   .action(async (cmd) => {
@@ -26,6 +30,26 @@ program
     if (isExists) return;
     create(projectName, undefined);
   });
+
+// 声明ui配置页面
+program
+  .command("ui")
+  .description("启动并且打开ui配置页面")
+  .option(
+    "-p, --port <port>",
+    "Port used for the UI server (by default search for available port)"
+  )
+  .option("--quiet", `Don't output starting messages`)
+  .action((options) => {
+    if (process.env.NODE_ENV === "production") {
+      // 启动cli-server
+      const baseUrl = process.cwd();
+      const cwdServer = `${baseUrl}/cli-server`;
+      clg("cwdServer", cwdServer);
+      spawnProcess("node", [`${baseUrl}/dist/cli-server/index.mjs`]);
+    }
+  });
+
 // ⭐ 声明子命令
 program
   .command("gen")

@@ -6,7 +6,7 @@ import axios from "axios";
 import { WIN_PLATFORM } from "../constants.js";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import * as packageJson from "../../package.json";
+import * as packageJson from "../../../package.json";
 /**
  * 计算文件夹大小
  * @param dirPath 文件夹路径
@@ -104,7 +104,7 @@ export const checkNpmVersion = async () => {
       currentVersion
     )} → ${pc.green(latestVersion)}\n${isShowEmoji("📄")} ${
       magenta("更新日志: ") +
-      dim(`https://github.com/pure-admin/${npmName}/releases`)
+      dim(`https://github.com/gk-lang/gk-frontend-cli/releases/${npmName}`)
     }\n${isShowEmoji("🚀")} ${
       dim("运行") +
       magenta(` npm i -g ${npmName}@latest --force`) +

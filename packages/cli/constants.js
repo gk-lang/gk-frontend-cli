@@ -8,7 +8,7 @@ export const WIN_PLATFORM = platform() === "win32";
 //   taobao: "https://registry.npmmirror.com/",
 // };
 
-export { name, version, publishConfig } from "../package.json";
+// export { name, version, publishConfig } from "../package.json";
 
 export const templates = {
   template1: {
