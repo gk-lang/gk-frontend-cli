@@ -31,7 +31,7 @@ var server = http.createServer(app);
 server.listen(port, () => {
   const address = `http://localhost:${port}`;
   console.log(`Ui Server is running on ${address}`);
-  open(address);
+  // open(address);
   openBrowser(address);
 });
 server.on("error", onError);
