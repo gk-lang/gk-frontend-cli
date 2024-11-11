@@ -10,6 +10,11 @@ import app from "./server/app";
 import debugLib from "debug";
 import http from "node:http";
 import { openBrowser } from "./utils/openBrowser";
+import ora from "ora";
+import pc from "picocolors";
+
+const spinner = ora();
+
 var debug = debugLib("cli-server:server");
 
 /**
@@ -28,8 +33,9 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-
+spinner.start("GUI界面启动中...");
 server.listen(port, () => {
+  spinner.succeed(`${pc.green("GUI界面启动成功!")}`);
   const address = `http://localhost:${port}`;
   openBrowser(address);
   const welcomeMessage = gradientString('cyan', 'magenta').multiline(
@@ -42,7 +48,8 @@ server.listen(port, () => {
     borderStyle: 'round'
   }
   console.log(boxen(welcomeMessage, boxenOprions))
-  console.log(pc.gray(` Ui Server is running on `) + pc.greenBright(`${address}`));
+  console.log(pc.gray(` UI界面访问地址： `) + pc.greenBright(`${address}`));
+  console.log('');
 });
 server.on("error", onError);
 server.on("listening", onListening);
@@ -72,6 +79,7 @@ function normalizePort(val) {
  */
 
 function onError(error) {
+  spinner.fail(`${pc.red("GUI界面启动失败, 请重新操作!")}`);
   if (error.syscall !== "listen") {
     throw error;
   }
@@ -98,7 +106,7 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-  debug("Listening on " + bind);
+  // var addr = server.address();
+  // var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+  // debug("Listening on " + bind);
 }

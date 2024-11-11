@@ -5,12 +5,12 @@ import { isExistsFile } from "./create-dir";
 import * as packageJson from "../../package.json";
 import { inputProjectName } from "./prompt";
 import { spawnProcess } from "./utils";
-import ora from 'ora';
+import ora from "ora";
 import pc from "picocolors";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const spinner = ora()
+const spinner = ora();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -56,12 +56,9 @@ program
     if (process.env.NODE_ENV === "production") {
       // 启动cli-server
       try {
-        spinner.start("GUI界面启动中...");
         const execFile = path.join(__dirname, "../cli-server/index.mjs");
         await spawnProcess("node", [execFile]);
-        spinner.succeed(`${pc.green("GUI界面启动成功!")}`);
       } catch (error) {
-        spinner.fail(`${pc.red("GUI界面启动失败, 请重新操作!")}`);
         process.exit(1);
       }
     }
