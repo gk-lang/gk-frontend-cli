@@ -12,6 +12,7 @@
     "name": "gaoke.zhang@qq.com"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^23.0.2",
@@ -23,7 +24,6 @@
     "rollup-plugin-hashbang": "^3.0.0"
   },
   "dependencies": {
-    "@babel/core": "^7.26.0",
     "axios": "^1.7.7",
     "boxen": "^8.0.1",
     "cac": "^6.7.14",

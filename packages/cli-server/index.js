@@ -6,7 +6,7 @@
 
 import app from './server/app';
 import debugLib from 'debug';
-import http from 'http';
+import http from 'node:http';
 
 var debug = debugLib('cli-server:server');
 
