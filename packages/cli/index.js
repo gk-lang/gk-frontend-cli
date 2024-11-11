@@ -4,7 +4,7 @@ import { create } from "./template";
 import { isExistsFile } from "./create-dir";
 import * as packageJson from "../../package.json";
 import { inputProjectName } from "./prompt";
-import { spawnProcess, openBrowser, clg, log } from "./utils";
+import { spawnProcess, clg, log } from "./utils";
 import * as http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -49,10 +49,7 @@ program
       // 启动cli-server
       const execFile = path.join(__dirname, "../cli-server/index.mjs");
       clg("cwdServer", execFile);
-      spawnProcess("node", [execFile]).then(() => {
-        log("cli-server启动成功");
-        openBrowser("http://localhost:3000/")
-      });
+      spawnProcess("node", [execFile]);
     }
   });
 

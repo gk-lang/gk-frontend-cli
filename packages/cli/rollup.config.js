@@ -3,7 +3,6 @@ import json from "@rollup/plugin-json";
 import babel from "@rollup/plugin-babel";
 import replace from "@rollup/plugin-replace";
 import hashbang from "rollup-plugin-hashbang";
-import copy from 'rollup-plugin-copy'
 
 const entries = ["./index.js"];
 
@@ -13,14 +12,6 @@ const plugins = [
     __buildDate__: () => JSON.stringify(new Date()),
     __buildVersion: 15,
   }),
-  copy({
-    targets: [
-       {
-         src: './utils/openChrome.applescript',
-         dest: '../../dist/cli'
-       }
-     ]
-   }),
   babel({
     babelrc: false,
     babelHelpers: "bundled",

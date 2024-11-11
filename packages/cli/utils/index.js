@@ -1,7 +1,6 @@
 export * from "./log";
 export * from "./clone";
 export * from "./check";
-export * from "./openBrowser";
 import { spawn } from "node:child_process";
 
 export const spawnProcess = async (...args) => {
