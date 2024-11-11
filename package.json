@@ -2,7 +2,7 @@
   "name": "jzt-cli",
   "description": "快速生成九州通前端基础项目的命令行工具",
   "main": "bin/index.mjs",
-  "version": "0.2.18",
+  "version": "0.2.17",
   "type": "module",
   "module": "bin/index.mjs",
   "preferGlobal": true,
@@ -78,6 +78,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
-    "execa": "^1.0.0"
+    "execa": "^1.0.0",
+    "open": "^8.0.2"
   }
 }
