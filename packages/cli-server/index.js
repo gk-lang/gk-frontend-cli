@@ -5,7 +5,6 @@
  */
 import boxen from 'boxen'
 import gradientString from 'gradient-string'
-import pc from "picocolors";
 import app from "./server/app";
 import debugLib from "debug";
 import http from "node:http";
