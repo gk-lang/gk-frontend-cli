@@ -17,12 +17,7 @@
     "build:cli-ui": "pnpm run -C packages/cli-ui build",
     "clean": "rimraf dist",
     "pub": "node ./scripts/publish.js",
-    "prepare": "husky install",
-    "lint": "eslint .",
-    "lint:eslint": "eslint . --fix",
-    "lint:format": "prettier --write --loglevel warn \"**/*.{js,cjs,ts}\"",
-    "lint:lint-staged": "lint-staged -c ./.husky/lintstagedrc.cjs",
-    "lint:all": "npm run lint:eslint && npm run lint:format"
+    "prepare": "husky install"
   },
   "bin": {
     "jzt": "bin/index.mjs"
