@@ -4,11 +4,13 @@ import { create } from "./template";
 import { isExistsFile } from "./create-dir";
 import * as packageJson from "../../package.json";
 import { inputProjectName } from "./prompt";
-import { spawnProcess, clg, log } from "./utils";
-
+import { spawnProcess } from "./utils";
+import ora from 'ora';
+import pc from "picocolors";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+const spinner = ora()
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

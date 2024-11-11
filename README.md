@@ -1,4 +1,4 @@
-<h1 align="left">@jzt/cli</h1>
+<h1 align="left">jzt-cli</h1>
 <p align="left">快速构建九州通前端项目初始化工程的命令行工具</p>
 
 ## 发包方法：`npm run pub`
@@ -53,20 +53,23 @@ pnpm remove -g jzt-cli
 
 ## 使用方法
 ``` bash
-# pure init 项目名称 模板类型
-pure init myproject template1
+# jzt create 项目名称 模板序号 是否强制覆盖
+jzt create myproject 1 -f
 
 # 交互式选择模板并创建项目
-pure create
+jzt create
 
-# 当然也可以选择不安装@jzt/cli创建项目，使用npx创建项目
-npx @jzt/cli init thin myproject
+# GUI 界面操作模式创建项目
+jzt ui
+
+# 当然也可以选择不安装jzt-cli创建项目，使用npx创建项目
+npx jzt-cli create myproject 1
 # or
-npx @jzt/cli create
+npx jzt-cli create
 ```
 
 ## 更多命令
-检查版本，也可以用于检查是否成功安装@jzt/cli
+检查版本，也可以用于检查是否成功安装jzt-cli
 ``` bash
 jzt -v
 ```
