@@ -38,7 +38,7 @@
     "url": "git+https://github.com/gk-lang/gk-frontend-cli.git"
   },
   "publishConfig": {
-    "registry": "http://10.3.87.51:8082/repository/npm-hosted/",
+    "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "devDependencies": {
