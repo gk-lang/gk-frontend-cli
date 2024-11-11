@@ -214,6 +214,9 @@ importers:
 
   packages/cli-server:
     dependencies:
+      boxen:
+        specifier: ^8.0.1
+        version: 8.0.1
       cookie-parser:
         specifier: ~1.4.4
         version: 1.4.7
@@ -226,6 +229,9 @@ importers:
       express:
         specifier: ~4.16.1
         version: 4.16.4
+      gradient-string:
+        specifier: ^3.0.0
+        version: 3.0.0
       morgan:
         specifier: ~1.9.1
         version: 1.9.1
