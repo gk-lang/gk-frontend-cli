@@ -6,8 +6,10 @@ import * as packageJson from "../../package.json";
 import { inputProjectName } from "./prompt";
 import { spawnProcess, hasTemplate, clg, log } from "./utils";
 import * as http from "node:http";
+import path from "node:path";
 
-// import { createServer } from "../cli-service/server/src/server";
+const SCRIPT_DIR = path.join(__dirname, "..");
+
 const program = new Command();
 
 // 声明主命令
@@ -43,10 +45,9 @@ program
   .action((options) => {
     if (process.env.NODE_ENV === "production") {
       // 启动cli-server
-      const baseUrl = process.cwd();
-      const cwdServer = `${baseUrl}/cli-server`;
+      const execFile = `${SCRIPT_DIR}/cli-server/index.mjs`;
       clg("cwdServer", cwdServer);
-      spawnProcess("node", [`${baseUrl}/dist/cli-server/index.mjs`]);
+      spawnProcess("node", [execFile]);
     }
   });
 
