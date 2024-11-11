@@ -37,6 +37,10 @@ export default [
         file: `../../dist/cli/${input.replace(".js", ".mjs")}`,
         format: "esm",
       },
+      {
+        file: `../../dist/cli/${input.replace(".js", ".cjs")}`,
+        format: "cjs",
+      }
     ],
     external: [],
     plugins,

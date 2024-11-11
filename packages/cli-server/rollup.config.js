@@ -36,6 +36,10 @@ export default [
       {
         file: `../../dist/cli-server/${input.replace('.js', '.mjs')}`,
         format: "esm",
+      },
+      {
+        file: `../../dist/cli-server/${input.replace(".js", ".cjs")}`,
+        format: "cjs",
       }
     ],
     external: [],
