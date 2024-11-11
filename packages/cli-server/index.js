@@ -7,6 +7,7 @@
 import app from "./server/app";
 import debugLib from "debug";
 import http from "node:http";
+import open from "open";
 import { openBrowser } from "./utils/openBrowser";
 var debug = debugLib("cli-server:server");
 
