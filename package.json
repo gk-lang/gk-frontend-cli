@@ -23,7 +23,7 @@
     "jzt": "bin/index.mjs"
   },
   "files": [
-    "dist",
+    "dist/*",
     "bin"
   ],
   "license": "MIT",
