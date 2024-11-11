@@ -7,7 +7,10 @@ import { inputProjectName } from "./prompt";
 import { spawnProcess, hasTemplate, clg, log } from "./utils";
 import * as http from "node:http";
 import path from "node:path";
-const SCRIPT_DIR = path.dirname();
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const program = new Command();
 
@@ -44,7 +47,7 @@ program
   .action((options) => {
     if (process.env.NODE_ENV === "production") {
       // 启动cli-server
-      const execFile = path.join(SCRIPT_DIR, "../cli-server/index.mjs");
+      const execFile = path.join(__dirname, "../cli-server/index.mjs");
       clg("cwdServer", cwdServer);
       spawnProcess("node", [execFile]);
     }
