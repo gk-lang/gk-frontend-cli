@@ -48,7 +48,7 @@ program
     if (process.env.NODE_ENV === "production") {
       // 启动cli-server
       const execFile = path.join(__dirname, "../cli-server/index.mjs");
-      clg("cwdServer", cwdServer);
+      clg("cwdServer", execFile);
       spawnProcess("node", [execFile]);
     }
   });
