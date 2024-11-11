@@ -7,8 +7,7 @@ import { inputProjectName } from "./prompt";
 import { spawnProcess, hasTemplate, clg, log } from "./utils";
 import * as http from "node:http";
 import path from "node:path";
-
-const SCRIPT_DIR = path.join(__dirname, "..");
+const SCRIPT_DIR = path.join(import.meta.dirname, "..");
 
 const program = new Command();
 
