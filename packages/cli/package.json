@@ -21,6 +21,7 @@
     "cross-env": "^7.0.3",
     "husky": "^9.1.6",
     "rollup": "^3.4.0",
+    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-hashbang": "^3.0.0"
   },
   "dependencies": {
@@ -40,6 +41,8 @@
     "rollup-plugin-polyfill-node": "^0.13.0",
     "semver": "^7.6.3",
     "simple-git": "^3.27.0",
-    "trash": "^9.0.0"
+    "trash": "^9.0.0",
+    "execa": "^1.0.0",
+    "open": "^8.0.2"
   }
 }
