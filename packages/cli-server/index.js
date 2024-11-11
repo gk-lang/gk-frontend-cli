@@ -3,11 +3,12 @@
 /**
  * Module dependencies.
  */
-
+import boxen from 'boxen'
+import gradientString from 'gradient-string'
+import pc from "picocolors";
 import app from "./server/app";
 import debugLib from "debug";
 import http from "node:http";
-import open from "open";
 import { openBrowser } from "./utils/openBrowser";
 var debug = debugLib("cli-server:server");
 
@@ -30,9 +31,18 @@ var server = http.createServer(app);
 
 server.listen(port, () => {
   const address = `http://localhost:${port}`;
-  console.log(`Ui Server is running on ${address}`);
-  // open(address);
   openBrowser(address);
+  const welcomeMessage = gradientString('cyan', 'magenta').multiline(
+    'Hello! 欢迎使用 jzt-cli 脚手架工具 🎉🎉🎉'
+  )
+  const boxenOprions = {
+    padding: 1,
+    margin: 1,
+    borderColor: 'cyan',
+    borderStyle: 'round'
+  }
+  console.log(boxen(welcomeMessage, boxenOprions))
+  console.log(pc.gray(` Ui Server is running on `) + pc.greenBright(`${address}`));
 });
 server.on("error", onError);
 server.on("listening", onListening);

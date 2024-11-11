@@ -26,29 +26,29 @@
 
 ## 全局安装
 ``` bash
-npm install -g @jzt/cli
+npm install -g jzt-cli@latest 
 # or
-yarn global add @jzt/cli
+yarn global add -g jzt-cli@latest 
 # or
-pnpm add -g @jzt/cli
+pnpm add -g jzt-cli@latest  
 ```
 
 ## 全局升级
 ``` bash
-npm update -g @jzt/cli
+npm update -g jzt-cli
 # or
-yarn global upgrade --latest @jzt/cli
+yarn global upgrade --latest jzt-cli
 # or
-pnpm up --latest -g @jzt/cli
+pnpm up --latest -g jzt-cli
 ```
 
 ## 全局卸载
 ``` bash
-npm uninstall -g @jzt/cli
+npm uninstall -g jzt-cli
 # or
-yarn global remove @jzt/cli
+yarn global remove jzt-cli
 # or
-pnpm remove -g @jzt/cli
+pnpm remove -g jzt-cli
 ```
 
 ## 使用方法

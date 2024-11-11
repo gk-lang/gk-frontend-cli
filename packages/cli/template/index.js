@@ -3,7 +3,12 @@ import { clone, checkNpmVersion, clg } from "../utils";
 import { templates } from "../constants";
 
 export const create = async (projectName, templateName) => {
-  const run = async (name) => {
+  const run = async (key) => {
+    let name = key;
+    if (["1", "2"].includes(key + "")) {
+      name = `template${key}`;
+    }
+    // console.log("name", name);
     const { downloadUrl, branch } = templates[name];
 
     // 并行执行 - 下载模板和检查脚手架版本
