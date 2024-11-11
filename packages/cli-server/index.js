@@ -11,6 +11,7 @@ import http from "node:http";
 import { openBrowser } from "./utils/openBrowser";
 import ora from "ora";
 import pc from "picocolors";
+import morgan from "morgan";
 
 const spinner = ora();
 
@@ -23,6 +24,15 @@ var debug = debugLib("cli-server:server");
 var port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
+if (process.env.NODE_ENV !== 'production') {
+  // 在开发环境中，允许打印 HTML 页面的变化
+  app.use(morgan('dev'));
+} else {
+  // 在生产环境中，禁用日志输出
+  app.use(morgan('combined', {
+    skip: function(req, res) { return res.statusCode < 400; }
+  }));
+}
 /**
  * Create HTTP server.
  */
