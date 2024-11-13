@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import history from "connect-history-api-fallback";
 import indexRouter from "./routes/index";
 import usersRouter from "./routes/users";
 
@@ -21,6 +22,12 @@ if (process.env.NODE_ENV === "production") {
   // console.log("staticDic", staticDic);
   app.use(express.static(staticDic));
 }
+app.use(
+  history({
+    disableDotRule: true,
+    verbose: true,
+  }),
+);
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 

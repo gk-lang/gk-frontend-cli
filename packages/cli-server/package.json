@@ -10,14 +10,15 @@
     "clean": "rimraf dist-server"
   },
   "dependencies": {
+    "boxen": "^8.0.1",
+    "connect-history-api-fallback": "^2.0.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "execa": "^1.0.0",
     "express": "~4.16.1",
+    "gradient-string": "^3.0.0",
     "morgan": "~1.9.1",
     "open": "^10.1.0",
-    "gradient-string": "^3.0.0",
-    "boxen": "^8.0.1",
-    "execa": "^1.0.0",
     "ora": "^8.1.0",
     "picocolors": "^1.1.1"
   },

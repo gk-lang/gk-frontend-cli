@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 import { create } from "./template";
-import { isExistsFile } from "./create-dir";
 import * as packageJson from "../../package.json";
 import { inputProjectName } from "./prompt";
-import { spawnProcess } from "./utils";
+import { spawnProcess,isExistsFile } from "./utils";
 import ora from "ora";
 import pc from "picocolors";
 import path from "node:path";
