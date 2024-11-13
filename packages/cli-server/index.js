@@ -6,7 +6,7 @@
 import boxen from 'boxen'
 import gradientString from 'gradient-string'
 import app from "./server/app";
-import debugLib from "debug";
+// import debugLib from "debug";
 import http from "node:http";
 import { openBrowser } from "./utils/openBrowser";
 import ora from "ora";
@@ -15,7 +15,7 @@ import morgan from "morgan";
 
 const spinner = ora();
 
-var debug = debugLib("cli-server:server");
+// var debug = debugLib("cli-server:server");
 
 /**
  * Get port from environment and store in Express.

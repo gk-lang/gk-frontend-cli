@@ -12,22 +12,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 var app = express();
-
+app.use(history());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV !== "production") {
   const staticDic = path.join(__dirname, "../cli-ui");
   // console.log("staticDic", staticDic);
   app.use(express.static(staticDic));
 }
-app.use(
-  history({
-    disableDotRule: true,
-    verbose: true,
-  }),
-);
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 

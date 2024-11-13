@@ -1,22 +1,3 @@
-<script setup>
-import { ref } from "vue";
-import { useRouter, RouterLink, RouterView } from "vue-router";
-const activeName = ref(1);
-const router = useRouter();
-function handleClick(name) {
-  activeName.value = name;
-  if (name === 1) {
-    router.push("/selectTemplate");
-  }
-  if (name === 2) {
-    router.push("/selectDirectory");
-  }
-  if (name === 3) {
-    router.push("/inputProject");
-  }
-}
-</script>
-
 <template>
   <div class="app-main">
     <div class="header">
@@ -47,6 +28,39 @@ function handleClick(name) {
     </div>
   </div>
 </template>
+<script setup>
+import { ref, watch } from "vue";
+import { useRouter, useRoute, RouterLink, RouterView } from "vue-router";
+const activeName = ref();
+const router = useRouter();
+const route = useRoute();
+function handleClick(name) {
+  activeName.value = name;
+  if (name === 1) {
+    router.push("/selectTemplate");
+  }
+  if (name === 2) {
+    router.push("/selectDirectory");
+  }
+  if (name === 3) {
+    router.push("/inputProject");
+  }
+}
+watch(
+  () => router.currentRoute.value.path,
+  (toPath) => {
+    if (toPath === "/selectTemplate" || toPath === "/") {
+      activeName.value = 1;
+    }
+    if (toPath === "/selectDirectory") {
+      activeName.value = 2;
+    }
+    if (toPath === "/inputProject") {
+      activeName.value = 3;
+    }
+  }
+);
+</script>
 <style lang="scss" scoped>
 .app-main {
   height: 100%;
