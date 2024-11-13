@@ -17,7 +17,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "production") {
   const staticDic = path.join(__dirname, "../cli-ui");
   // console.log("staticDic", staticDic);
   app.use(express.static(staticDic));
