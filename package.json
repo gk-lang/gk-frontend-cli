@@ -1,7 +1,7 @@
 {
   "name": "jzt-cli",
   "description": "快速生成九州通前端基础项目的命令行工具",
-  "main": "bin/index.mjs",
+  "main": "bin/index.cjs",
   "version": "0.5.2",
   "type": "module",
   "module": "bin/index.mjs",
@@ -20,7 +20,7 @@
     "prepare": "husky install"
   },
   "bin": {
-    "jzt": "bin/index.mjs"
+    "jzt": "bin/index.cjs"
   },
   "files": [
     "dist/*",

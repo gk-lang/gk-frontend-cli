@@ -1,15 +1,12 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 import { create } from "./template";
-import * as packageJson from "../../package.json";
 import { inputProjectName } from "./prompt";
 import { spawnProcess,isExistsFile } from "./utils";
-import ora from "ora";
-import pc from "picocolors";
-import path from "node:path";
+import * as path from "node:path";
+import * as packageJson from "../../package.json";
 import { fileURLToPath } from "node:url";
 
-const spinner = ora();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -28,11 +25,10 @@ program
   .command("create")
   .alias("c")
   .description("创建一个新项目")
-  .option("-f, --force", "如果目标文件存在，则强制覆盖") // 强制覆盖
   .argument("[name]", "项目名称")
   .argument("[template]", "模版序号")
+  .option("-f, --force", "如果目标文件存在，则强制覆盖") // 强制覆盖
   .action(async (name, templateKey, options) => {
-    // console.log("action", name, templateKey, options);
     let projectName = name;
     if (!name) {
       projectName = await inputProjectName();
