@@ -2,7 +2,7 @@
 import { Command } from "commander";
 import { create } from "./template";
 import { inputProjectName } from "./prompt";
-import { spawnProcess,isExistsFile } from "./utils";
+import { spawnProcess, isExistsFile } from "./utils";
 import * as path from "node:path";
 import * as packageJson from "../../package.json";
 import { fileURLToPath } from "node:url";
@@ -48,14 +48,13 @@ program
   )
   .option("--quiet", `Don't output starting messages`)
   .action(async (options) => {
-    if (process.env.NODE_ENV === "production") {
-      // 启动cli-server
-      try {
-        const execFile = path.join(__dirname, "../cli-server/index.mjs");
-        await spawnProcess("node", [execFile]);
-      } catch (error) {
-        process.exit(1);
-      }
+    // 启动cli-server
+    try {
+      const cwdPath = process.cwd();
+      const execFile = path.join(__dirname, "../cli-server/index.mjs");
+      await spawnProcess("node", [execFile, `cwdPath = ${cwdPath}`]);
+    } catch (error) {
+      process.exit(1);
     }
   });
 

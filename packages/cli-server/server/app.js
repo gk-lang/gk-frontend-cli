@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import history from "connect-history-api-fallback";
 import indexRouter from "./routes/index";
-import usersRouter from "./routes/users";
+import folderRouter from "./routes/folder";
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,11 +19,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 if (process.env.NODE_ENV === "production") {
   const staticDic = path.join(__dirname, "../cli-ui");
-  // console.log("staticDic", staticDic);
+  console.log("staticDic", staticDic);
   app.use(express.static(staticDic));
 }
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/folder", folderRouter);
 
 export default app;

@@ -18,6 +18,7 @@
             i === folderList.length - 1 ? 'folder-item-last' : '',
           ]"
           v-for="(name, i) in folderList"
+          @click="handleTopFolderClick(i)"
         >
           <span class="folder-item-content">{{ name }}</span>
           <el-icon v-if="i === folderList.length - 1" class="edit" :size="20">
@@ -68,24 +69,29 @@
     </div>
     <div class="middle">
       <el-scrollbar class="scroll-container" ref="scrollRef">
-        <template v-for="(name, index) in childFolderList" :key="index">
-          <div class="folder-item">
+        <template v-for="(item, index) in childFolderList" :key="index">
+          <div
+            v-if="(item.isHiddenFile && isShowHiddenFile) || !item.isHiddenFile"
+            :class="['folder-item', item.isSelected ? 'selected' : '']"
+            @click="handleChildrenFolderClick(item)"
+            @dblclick="handleChildrenFolderDblclick(item)"
+          >
             <el-icon :size="26" color="green">
               <FolderOpened />
             </el-icon>
-            <div class="name">{{ name }}</div>
+            <div class="name">{{ item.name }}</div>
           </div>
         </template>
       </el-scrollbar>
     </div>
     <div class="bottom">
-        <el-button type="primary" :icon="Plus">在此创建新项目</el-button>
+      <el-button type="primary" :icon="Plus" @click="handleSave">在此创建新项目</el-button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import {
   Refresh,
   Edit,
@@ -96,40 +102,45 @@ import {
   CaretBottom,
   MoreFilled,
 } from "@element-plus/icons-vue";
+import { queryFolderList } from "@/api/cli-server";
 import { useRouter, RouterLink, RouterView } from "vue-router";
-const folderList = ref(["Users", "zhanggaoke", "workspace", "code", "demo"]);
-const childFolderList = ref([
-  "Users",
-  "zhanggaoke",
-  "workspace",
-  "code",
-  "demo",
-  "Users",
-  "zhanggaoke",
-  "workspace",
-  "code",
-  "demo",
-  "Users",
-  "zhanggaoke",
-  "workspace",
-  "code",
-  "demo",
-  "Users",
-  "zhanggaoke",
-  "workspace",
-  "code",
-  "demo",
-  "Users",
-  "zhanggaoke",
-  "workspace",
-  "code",
-  "demo",
-  "Users",
-  "zhanggaoke",
-  "workspace",
-  "code",
-  "demo",
-]);
+const isShowHiddenFile = ref(false);
+const folderList = ref([]);
+const childFolderList = ref([]);
+const router = useRouter();
+async function handleTopFolderClick(i) {
+  const path = folderList.value.slice(0, i + 1).join("/");
+  await getFolderList("/" + path);
+}
+async function handleChildrenFolderDblclick(item) {
+  const path = folderList.value.join("/") + "/" + item.name;
+  await getFolderList("/" + path);
+}
+async function handleChildrenFolderClick(item) {
+  const isSelected = !item.isSelected;
+  childFolderList.value.forEach((item) => {
+    item.isSelected = false;
+  });
+  item.isSelected = isSelected;
+}
+function handleSave(){
+  router.push("/inputProject");
+}
+async function getFolderList(path) {
+  const resp = await queryFolderList({
+    path: path,
+  });
+  if (resp.code === 200) {
+    folderList.value = resp.queryPath.split("/").slice(1);
+    childFolderList.value = resp.data.filter((x) => x.type === "directory");
+    childFolderList.value.forEach((item) => {
+      item.isSelected = false;
+    });
+  }
+}
+onMounted(async () => {
+  await getFolderList("");
+});
 </script>
 <style lang="scss" scoped>
 @mixin btn-item {
@@ -137,7 +148,7 @@ const childFolderList = ref([
   cursor: pointer;
   height: 32px;
   display: inline-block;
-  width: 34px;
+  min-width: 34px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -196,16 +207,22 @@ const childFolderList = ref([
         background: #e0f8ed;
         cursor: pointer;
         margin-left: 2px;
+        height: 32px;
+        line-height: 32px;
         &:hover {
           background: #e8faf2;
+          color: rgb(164, 76, 246);
         }
         .folder-item-content {
-          color: #2c3e50;
+          // color: #2c3e50;
           background: 0 0;
           padding: 0 9px;
           height: 32px;
           line-height: 32px;
           display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         &.folder-item-last {
           display: flex;
@@ -215,7 +232,7 @@ const childFolderList = ref([
           min-width: 150px;
           flex: 1;
           .edit {
-            margin-right: 0px;
+            margin-right: 5px;
           }
         }
       }
@@ -231,16 +248,48 @@ const childFolderList = ref([
         display: flex;
         align-items: center;
         padding-left: 20px;
+        position: relative;
+        user-select:none;
         .name {
           margin-left: 10px;
         }
         &:hover {
           background: #e8faf2;
+          border-radius: 7px;
+        }
+        &.selected {
+          // border: 1px solid rgb(164, 76, 246);
+          background: #e8faf2;
+          color: rgb(164, 76, 246);
+          box-shadow: 0 2px 7px 0 rgba(85, 110, 97, 0.35);
+          border-radius: 7px;
+          border: 1px solid rgb(164, 76, 246, 1);
+        }
+        &.selected:before {
+          content: "";
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          border: 17px solid rgb(164, 76, 246);
+          border-top-color: transparent;
+          border-left-color: transparent;
+        }
+        &.selected:after {
+          content: "";
+          width: 5px;
+          height: 12px;
+          position: absolute;
+          right: 6px;
+          bottom: 6px;
+          border: 2px solid #fff;
+          border-top-color: transparent;
+          border-left-color: transparent;
+          transform: rotate(45deg);
         }
       }
     }
   }
-  .bottom{
+  .bottom {
     height: 50px;
     display: flex;
     align-items: center;

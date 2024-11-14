@@ -4,15 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "vite --mode dev",
+    "build": "vite build --mode pro",
     "preview": "vite preview"
   },
   "dependencies": {
     "element-plus": "^2.8.7",
     "pinia": "^2.2.6",
     "vue": "^3.5.12",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "qs": "^6.12.3",
+    "axios": "^1.7.2"
   },
   "devDependencies": {
     "sass": "^1.77.6",

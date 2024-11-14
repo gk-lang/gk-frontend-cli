@@ -1,8 +1,17 @@
 <template>
   <div class="SelectTemplate">
-    <template v-for="info in templateList">
-      <ProjectTemplateCard @click="handleItemClick" :info="info" style="width: 480px" />
-    </template>
+    <div class="top">
+      <template v-for="info in templateList">
+        <ProjectTemplateCard
+          @click="handleItemClick"
+          :info="info"
+          style="width: 480px"
+        />
+      </template>
+    </div>
+    <div class="bottom">
+      <el-button type="primary" :icon="Plus" @click="handleSave">以此模版创建新项目</el-button>
+    </div>
   </div>
 </template>
 
@@ -10,7 +19,8 @@
 import { ref } from "vue";
 import { useRouter, RouterLink, RouterView } from "vue-router";
 import ProjectTemplateCard from "@/components/ProjectTemplateCard";
-
+import { Plus } from "@element-plus/icons-vue";
+const router = useRouter();
 const templateList = ref([
   {
     key: 1,
@@ -62,18 +72,30 @@ function handleItemClick(item) {
     }
   });
 }
+function handleSave(){
+  router.push("/selectDirectory");
+}
 </script>
 <style lang="scss" scoped>
 .SelectTemplate {
   height: 100%;
-  margin: auto;
-  display: grid;
-  max-width: 1600px;
-  grid-template-columns: 33.33% 33.33% 33.33%;
-  grid-template-rows: 33.33% 33.33% 33.33%;
-  @media screen and (max-width: 1500px) {
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
+  .top {
+    height: calc(100% - 100px);
+    margin: auto;
+    display: grid;
+    max-width: 1600px;
+    grid-template-columns: 33.33% 33.33% 33.33%;
+    grid-template-rows: 33.33% 33.33% 33.33%;
+    @media screen and (max-width: 1500px) {
+      grid-template-columns: 50% 50%;
+      grid-template-rows: 50% 50%;
+    }
+  }
+  .bottom {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>

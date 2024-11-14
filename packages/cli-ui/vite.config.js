@@ -11,7 +11,15 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 export default defineConfig({
   server: {
     host: "0.0.0.0",
-    port: 3000,
+    port: 4000,
+    proxy: {
+      // 选项写法
+      "/api": {
+        target: "http://127.0.0.1:3000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
     hmr: {
       overlay: false,
     },

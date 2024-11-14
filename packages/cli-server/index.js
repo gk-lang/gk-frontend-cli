@@ -3,8 +3,8 @@
 /**
  * Module dependencies.
  */
-import boxen from 'boxen'
-import gradientString from 'gradient-string'
+import boxen from "boxen";
+import gradientString from "gradient-string";
 import app from "./server/app";
 // import debugLib from "debug";
 import http from "node:http";
@@ -24,14 +24,18 @@ const spinner = ora();
 var port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   // 在开发环境中，允许打印 HTML 页面的变化
-  app.use(morgan('dev'));
+  app.use(morgan("dev"));
 } else {
   // 在生产环境中，禁用日志输出
-  app.use(morgan('combined', {
-    skip: function(req, res) { return res.statusCode < 400; }
-  }));
+  app.use(
+    morgan("combined", {
+      skip: function (req, res) {
+        return res.statusCode < 400;
+      },
+    })
+  );
 }
 /**
  * Create HTTP server.
@@ -42,24 +46,37 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-spinner.start("GUI界面启动中...");
-server.listen(port, () => {
-  spinner.succeed(`${pc.green("GUI界面启动成功!")}`);
-  const address = `http://localhost:${port}`;
-  openBrowser(address);
-  const welcomeMessage = gradientString('cyan', 'magenta').multiline(
-    'Hello! 欢迎使用 jzt-cli 脚手架工具 🎉🎉🎉'
-  )
-  const boxenOprions = {
-    padding: 1,
-    margin: 1,
-    borderColor: 'cyan',
-    borderStyle: 'round'
-  }
-  console.log(boxen(welcomeMessage, boxenOprions))
-  console.log(pc.gray(` UI界面访问地址： `) + pc.greenBright(`${address}`));
-  console.log('');
-});
+if (process.env.NODE_ENV === "production") {
+  spinner.start("GUI界面启动中...");
+  server.listen(port, () => {
+    spinner.succeed(`${pc.green("GUI界面启动成功!")}`);
+    const address = `http://localhost:${port}`;
+    openBrowser(address);
+    const welcomeMessage = gradientString("cyan", "magenta").multiline(
+      "Hello! 欢迎使用 jzt-cli 脚手架工具 🎉🎉🎉"
+    );
+    const boxenOprions = {
+      padding: 1,
+      margin: 1,
+      borderColor: "cyan",
+      borderStyle: "round",
+    };
+    console.log(boxen(welcomeMessage, boxenOprions));
+    console.log(pc.gray(` UI界面访问地址： `) + pc.greenBright(`${address}`));
+    console.log("");
+  });
+} else {
+  spinner.start("cli-server启动中...");
+  server.listen(port, () => {
+    spinner.succeed(`${pc.green("cli-server启动成功!")}`);
+    const address = `http://localhost:${port}/test`;
+    openBrowser(address);
+    console.log(
+      pc.gray(` cli-server服务访问地址： `) + pc.greenBright(`${address}`)
+    );
+    console.log("");
+  });
+}
 server.on("error", onError);
 server.on("listening", onListening);
 
