@@ -1,6 +1,6 @@
 import express from "express";
 import * as fs from "node:fs";
-var router = express.Router();
+const router = express.Router();
 function getFolderList(path) {
   let cwdPath = "";
   if (path) {
@@ -15,7 +15,7 @@ function getFolderList(path) {
   cwdPath = cwdPath.trim();
   const files = fs.readdirSync(cwdPath, { withFileTypes: true });
   const childrenPathList = files.map((file) => {
-    var isHidden = /^\./.test(file.name);
+    const isHidden = /^\./.test(file.name);
     if (file.isDirectory()) {
       return { name: file.name, type: "directory", isHiddenFile: isHidden };
     } else {

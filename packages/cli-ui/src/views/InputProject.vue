@@ -3,7 +3,11 @@
     <div class="raw">
       <div class="title">项目名称</div>
       <div class="content">
-        <el-input v-model="projectName" placeholder="请输入项目名称" />
+        <el-input
+          v-model="projectName"
+          placeholder="请输入项目名称"
+          :prefix-icon="Document"
+        />
       </div>
     </div>
     <div class="raw project-path">
@@ -15,7 +19,7 @@
           disabled
           :prefix-icon="FolderOpened"
         />
-        <el-icon class="edit-btn" :size="20">
+        <el-icon @click="handleProjectPathChange" class="edit-btn" :size="20">
           <Edit />
         </el-icon>
       </div>
@@ -23,7 +27,11 @@
     <div class="raw">
       <div class="title">项目模版</div>
       <div class="content">
-        <ProjectTemplateCard :info="projectTemplateInfo" style="width: 480px" />
+        <ProjectTemplateCard
+          :info="projectTemplateInfo"
+          @click="handleTemplateCardClick"
+          style="width: 480px"
+        />
       </div>
     </div>
     <div class="raw">
@@ -49,7 +57,7 @@
       </div>
     </div>
     <div class="raw btn-wrap">
-      <el-button color="#626aef" :icon="Edit">保存为预设配置</el-button>
+      <el-button color="#626aef" :icon="Edit" @click="saveAsPreset">保存为预设配置</el-button>
       <el-button type="success" :icon="Select">开始创建项目</el-button>
     </div>
   </div>
@@ -57,8 +65,12 @@
 
 <script setup>
 import { ref } from "vue";
-import { FolderOpened, Edit, Select } from "@element-plus/icons-vue";
+import { FolderOpened, Edit, Select, Document } from "@element-plus/icons-vue";
 import { useRouter, RouterLink, RouterView } from "vue-router";
+import { queryPresetList,savePresetList } from "@/api/cli-server";
+
+const router = useRouter();
+
 const projectName = ref("");
 const gitInfo = ref({
   isInitRepository: false,
@@ -67,16 +79,37 @@ const moreInfo = ref({
   isCoverExistFolder: false,
 });
 
-const projectTemplateInfo = ref({
-  key: 2,
-  title: "vite基础版",
-  tags: ["vite", "vue3"],
-  downloadUrl: "git@github.com:gk-lang/gk-frontend-vuecli-outputconfig.git",
-  description:
-    "集成一些常用组件如动态表格、动态表格等等，工程化工具使用的是vite",
-  branch: "main",
-  selected: true,
-});
+// const projectTemplateInfo = ref({
+//   key: 2,
+//   title: "vite基础版",
+//   tags: ["vite", "vue3"],
+//   downloadUrl: "git@github.com:gk-lang/gk-frontend-vuecli-outputconfig.git",
+//   description:
+//     "集成一些常用组件如动态表格、动态表格等等，工程化工具使用的是vite",
+//   branch: "main",
+//   selected: true,
+// });
+const projectTemplateInfo = ref(null);
+function handleTemplateCardClick(info) {
+  if (!info) {
+    router.push("/selectTemplate");
+  }
+}
+function handleProjectPathChange(){
+  router.push("/selectDirectory");
+}
+async function getPresetList(path) {
+  const resp = await queryPresetList();
+  if (resp.code === 200) {
+    
+  }
+}
+function saveAsPreset() {
+  savePresetList({
+    aa:11,
+    bb:22
+  })
+}
 </script>
 <style lang="scss" scoped>
 @mixin btn-item {
@@ -110,12 +143,21 @@ const projectTemplateInfo = ref({
       font-size: 14px;
       font-family: Roboto, Avenir, Helvetica, Arial, sans-serif;
     }
-    .content {
+    .content{
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+    .content-left-right {
       width: 100%;
       display: flex;
       align-items: center;
       .edit-btn {
         @include btn-item;
+        cursor: pointer;
+        &:hover{
+          color: rgb(164, 76, 246);
+        }
       }
     }
     .content-left-right {

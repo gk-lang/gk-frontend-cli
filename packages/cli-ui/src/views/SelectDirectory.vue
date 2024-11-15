@@ -1,7 +1,7 @@
 <template>
   <div class="SelectDirectory">
     <div class="top">
-      <span class="back">
+      <span class="back" @click="handleGoBackClick">
         <el-icon :size="16">
           <ArrowUpBold />
         </el-icon>
@@ -85,7 +85,9 @@
       </el-scrollbar>
     </div>
     <div class="bottom">
-      <el-button type="primary" :icon="Plus" @click="handleSave">在此创建新项目</el-button>
+      <el-button type="primary" :icon="Plus" @click="handleSave"
+        >在此创建新项目</el-button
+      >
     </div>
   </div>
 </template>
@@ -108,6 +110,10 @@ const isShowHiddenFile = ref(false);
 const folderList = ref([]);
 const childFolderList = ref([]);
 const router = useRouter();
+async function handleGoBackClick() {
+  const path = folderList.value.slice(0, folderList.value.length - 1).join("/");
+  await getFolderList("/" + path);
+}
 async function handleTopFolderClick(i) {
   const path = folderList.value.slice(0, i + 1).join("/");
   await getFolderList("/" + path);
@@ -123,7 +129,7 @@ async function handleChildrenFolderClick(item) {
   });
   item.isSelected = isSelected;
 }
-function handleSave(){
+function handleSave() {
   router.push("/inputProject");
 }
 async function getFolderList(path) {
@@ -249,7 +255,7 @@ onMounted(async () => {
         align-items: center;
         padding-left: 20px;
         position: relative;
-        user-select:none;
+        user-select: none;
         .name {
           margin-left: 10px;
         }

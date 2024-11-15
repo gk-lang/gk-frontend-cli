@@ -29,11 +29,11 @@
   </div>
 </template>
 <script setup>
-import { ref, watch } from "vue";
-import { useRouter, useRoute, RouterLink, RouterView } from "vue-router";
+import { onMounted, ref, watch } from "vue";
+import { useRouter, RouterView } from "vue-router";
+import { debounce } from "./utils";
 const activeName = ref();
 const router = useRouter();
-const route = useRoute();
 function handleClick(name) {
   activeName.value = name;
   if (name === 1) {
@@ -46,20 +46,24 @@ function handleClick(name) {
     router.push("/inputProject");
   }
 }
-watch(
-  () => router.currentRoute.value.path,
-  (toPath) => {
-    if (toPath === "/selectTemplate" || toPath === "/") {
-      activeName.value = 1;
-    }
-    if (toPath === "/selectDirectory") {
-      activeName.value = 2;
-    }
-    if (toPath === "/inputProject") {
-      activeName.value = 3;
-    }
+
+const changeActiveName = debounce((toPath) => {
+  if (toPath === "/selectTemplate" || toPath === "/" || !toPath) {
+    activeName.value = 1;
   }
-);
+  if (toPath === "/selectDirectory") {
+    activeName.value = 2;
+  }
+  if (toPath === "/inputProject") {
+    activeName.value = 3;
+  }
+}, 150);
+watch(() => router.currentRoute.value.path, changeActiveName, {
+  immediate: true,
+});
+onMounted(() => {
+  // const a = router.currentRoute.value.path;
+});
 </script>
 <style lang="scss" scoped>
 .app-main {
@@ -89,6 +93,7 @@ watch(
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;
         position: relative;
+        transition: all 0.3s;
         span {
           padding: 0px 20px;
         }
