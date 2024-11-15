@@ -93,7 +93,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import {
   Refresh,
   Edit,
@@ -105,11 +105,24 @@ import {
   MoreFilled,
 } from "@element-plus/icons-vue";
 import { queryFolderList } from "@/api/cli-server";
-import { useRouter, RouterLink, RouterView } from "vue-router";
+import { useRouter } from "vue-router";
+import { useSaveFolderStore } from "@/stores/save-folder";
+const router = useRouter();
+const store = useSaveFolderStore();
+
 const isShowHiddenFile = ref(false);
 const folderList = ref([]);
 const childFolderList = ref([]);
-const router = useRouter();
+
+watch(()=>[folderList.value,childFolderList.value], async (nv)=>{
+  const saveFolder = [...folderList.value]
+  const selectedItem = childFolderList.value.find((x) => x.isSelected);
+  if(selectedItem){
+    saveFolder.push(selectedItem.name)
+  }
+  store.setSaveFolder(folderList.value);
+}, {deep:true})
+
 async function handleGoBackClick() {
   const path = folderList.value.slice(0, folderList.value.length - 1).join("/");
   await getFolderList("/" + path);

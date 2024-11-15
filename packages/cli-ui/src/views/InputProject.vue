@@ -11,17 +11,22 @@
       </div>
     </div>
     <div class="raw project-path">
-      <div class="title">项目文件夹</div>
-      <div class="content-left-right">
-        <el-input
-          v-model="projectPath"
-          placeholder="请输入项目路径"
-          disabled
-          :prefix-icon="FolderOpened"
-        />
-        <el-icon @click="handleProjectPathChange" class="edit-btn" :size="20">
+      <div class="title">
+        <span>项目文件夹</span>
+        <el-icon title="编辑" @click="handleProjectPathEdit" class="edit-btn" :size="16">
           <Edit />
         </el-icon>
+      </div>
+      <div class="content">
+        <el-input
+          v-model="projectPath"
+          placeholder="双击选择项目路径"
+          :readonly="projectPathIsDisabled"
+          :prefix-icon="FolderOpened"
+          :autosize="{ minRows: 3, maxRows: 6 }"
+          @dblclick.native="handleProjectPathClick"
+          type="textarea"
+        />
       </div>
     </div>
     <div class="raw">
@@ -64,38 +69,34 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { FolderOpened, Edit, Select, Document } from "@element-plus/icons-vue";
 import { useRouter, RouterLink, RouterView } from "vue-router";
 import { queryPresetList,savePresetList } from "@/api/cli-server";
+import { useProjectTemplateStore } from "@/stores/project-template";
+import { useSaveFolderStore } from "@/stores/save-folder";
 
 const router = useRouter();
-
+const templateStore = useProjectTemplateStore();
+const folderStore = useSaveFolderStore();
 const projectName = ref("");
+const projectPath = ref("");
+const projectPathIsDisabled = ref(true);
+
 const gitInfo = ref({
   isInitRepository: false,
 });
 const moreInfo = ref({
   isCoverExistFolder: false,
 });
-
-// const projectTemplateInfo = ref({
-//   key: 2,
-//   title: "vite基础版",
-//   tags: ["vite", "vue3"],
-//   downloadUrl: "git@github.com:gk-lang/gk-frontend-vuecli-outputconfig.git",
-//   description:
-//     "集成一些常用组件如动态表格、动态表格等等，工程化工具使用的是vite",
-//   branch: "main",
-//   selected: true,
-// });
 const projectTemplateInfo = ref(null);
 function handleTemplateCardClick(info) {
-  if (!info) {
-    router.push("/selectTemplate");
-  }
+  router.push("/selectTemplate");
 }
-function handleProjectPathChange(){
+function handleProjectPathEdit(){
+  projectPathIsDisabled.value =!projectPathIsDisabled.value;
+}
+function handleProjectPathClick(){
   router.push("/selectDirectory");
 }
 async function getPresetList(path) {
@@ -110,6 +111,18 @@ function saveAsPreset() {
     bb:22
   })
 }
+onMounted(() => {
+  // 项目模板
+  templateStore.on("InputProject", (list) => {
+    projectTemplateInfo.value = list.find(x=>x.selected) || null;
+  });
+  projectTemplateInfo.value = templateStore.templateList.find(x=>x.selected) || null;
+  // 项目路径
+  folderStore.on("InputProject", (list) => {
+    projectPath.value = folderStore.saveFolder;
+  });
+  projectPath.value = folderStore.saveFolder;
+})
 </script>
 <style lang="scss" scoped>
 @mixin btn-item {
@@ -138,6 +151,18 @@ function saveAsPreset() {
       font-size: 16px;
       font-family: Roboto, Avenir, Helvetica, Arial, sans-serif;
       color: #2c3e50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .edit-btn {
+        @include btn-item;
+        width: 26px;
+        height: 26px;
+        cursor: pointer;
+        &:hover{
+          color: rgb(164, 76, 246);
+        }
+      }
     }
     .sub-title {
       font-size: 14px;
@@ -147,16 +172,10 @@ function saveAsPreset() {
       width: 100%;
       display: flex;
       align-items: center;
-    }
-    .content-left-right {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      .edit-btn {
-        @include btn-item;
-        cursor: pointer;
-        &:hover{
-          color: rgb(164, 76, 246);
+      :deep(.el-textarea) {
+        textarea:read-only {
+          background-color: #eee;
+          cursor: pointer;
         }
       }
     }

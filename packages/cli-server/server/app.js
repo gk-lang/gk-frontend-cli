@@ -5,6 +5,7 @@ import history from "connect-history-api-fallback";
 import indexRouter from "./routes/index";
 import folderRouter from "./routes/folder";
 import presetRouter from "./routes/preset";
+import templateRouter from "./routes/template";
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -27,5 +28,5 @@ if (process.env.NODE_ENV === "production") {
 app.use("/", indexRouter);
 app.use("/folder", folderRouter);
 app.use("/preset", presetRouter);
-
+app.use("/template", templateRouter);
 export default app;
